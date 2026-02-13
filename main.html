@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Valentine's Invite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+</head>
+<style>
+/* Heart Styling */
+.heart { position: relative; width: 5px; height: 5px; } 
+.heart:before, .heart:after { 
+    position: absolute; content: ""; left: 20px; top: 0; 
+    width: 20px; height: 40px; background: rgb(233, 205, 205); 
+    border-radius: 50px 50px 0 0; transform: rotate(-45deg); transform-origin: 0 100%; 
+} 
+.heart:after { left: 0; transform: rotate(45deg); transform-origin :100% 100%; }
+
+.card { transition: transform 0.2s ease, box-shadow 0.5s ease; cursor: pointer; border: none; overflow: hidden; }
+.card:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); } 
+
+/* --- SPINNER SECTION --- */
+.wheel-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-top: 50px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 10px solid #dde;
+    position: relative;
+    overflow: hidden;
+    transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
+}
+
+.container div {
+    height: 50%;
+    width: 350px; 
+    position: absolute;
+    clip-path: polygon(100% 0 , 50% 100% , 0 0 );
+    transform: translateX(-50%);
+    transform-origin: bottom;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 45px; 
+    font-size: 14px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #fff;
+    left: 50%;
+}
+
+.container .one { background-color: #cc1c91; transform: translateX(-50%) rotate(0deg); }
+.container .two { background-color: #fcac93; transform: translateX(-50%) rotate(90deg); }
+.container .three { background-color: #e91e63; transform: translateX(-50%) rotate(180deg); }
+.container .four { background-color: #680b4c; transform: translateX(-50%) rotate(270deg); }
+
+.arrow {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    color: #fff;
+}
+.arrow::before { content: "\25BC"; font-size: 40px; }
+
+#spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    background-color: #e2e2e2;
+    text-transform: uppercase;
+    border: 5px solid #fff;
+    font-weight: bold;
+    font-size: 14px;
+    color: #777;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+}
+
+#lottie-hearts {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+    z-index: 50; 
+    pointer-events: none;
+}
+
+#result {
+    color: white;
+    margin: 20px;
+}
+
+footer {
+    background-color: #212529;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+/* Add this to your main body style to stop the horizontal scroll */
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    /* 1. Show only exactly 5 hearts */
+    .heart:nth-child(n+6) { 
+        display: none; 
+    }
+
+    /* 2. Scale down the card to fit phone screens */
+    .card {
+        width: 90% !important;
+        height: auto !important;
+        margin: 0 auto;
+    }
+
+    /* 3. Scale down the spinner so it doesn't overflow */
+    .wheel-wrapper {
+        transform: scale(0.8);
+        margin-top: 20px;
+    }
+    
+    /* 4. Adjust Lottie size for scaled wheel */
+    #lottie-hearts {
+        width: 320px;
+        height: 320px;
+    }
+    
+    h1 { font-size: 1.8rem; }
+}
+</style>
+
+<body class="bg-danger">
+    <div class="d-flex justify-content-around bg-dark">
+        <div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div>
+    </div>
+
+    <section class="d-flex flex-column justify-content-center align-items-center ">
+        <h1 class="text-center mt-5 mb-3 text-white">Valentine's Invite</h1>
+       
+        <div class="card text-center" style="width: 23.7rem; height:19rem">
+            <img src="Retro red Valentines Day postcard template with airmail border and _Love Mail_ stamp illustrations.jfif" class="card-img-top" alt="...">
+            <button type="button" class="cardbuttonbtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Valentine's special message: open now!
+            </button>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Secret Message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                        <div class="modal-body bg-danger"></div>
+                    </div>
+                </div>
+        </div>
+
+        <button type="button" class="btn btn-dark mt-4" data-bs-toggle="modal" data-bs-target="#writter">Write yours!</button>
+
+        <div class="modal fade" id="writter" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal-dialog"><div class="modal-content"><div class="modal-header">
+                <h5 class="modal-title">Write your letter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <input id="gettext" style="width: 90%;" ></div>
+                <div class="modal-footer"><button type="button" class="btn btn-primary">Submit</button></div></div></div>
+        </div>
+
+        <div class="wheel-wrapper">
+            <span class="arrow"></span>
+            <button id="spin">Spin</button>
+            <div id="lottie-hearts"></div>
+            <div class="container">
+                <div class="one">Smoothie<br>challenge</div>
+                <div class="two">Portrait<br>painting</div>
+                <div class="three">Bob Ross<br>Painting</div>
+                <div class="four">Baking<br>Date</div>
+            </div>
+        </div>
+        <h5 id="result" class="text-center"></h5>
+    </section>
+
+    <footer>
+        <p>Made with Love © 2026</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let container = document.querySelector(".container");
+        let btn = document.getElementById("spin");
+        let resultText = document.getElementById("result");
+        let totalRotation = 0;
+
+        const lottieAnim = lottie.loadAnimation({
+            container: document.getElementById('lottie-hearts'),
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            path: 'Hearts feedback.json' 
+        });
+
+        btn.onclick = function () {
+            resultText.innerText = "";
+            lottieAnim.stop(); 
+
+            let addedRotation = Math.ceil(Math.random() * 360) + 1800;
+            totalRotation += addedRotation;
+            container.style.transform = "rotate(" + totalRotation + "deg)";
+
+            setTimeout(() => {
+                lottieAnim.play(); 
+                
+                let actualDeg = totalRotation % 360;
+                let winningAngle = (360 - actualDeg) % 360;
+                
+                let winner = "";
+                if (winningAngle >= 315 || winningAngle < 45) winner = "Smoothie challenge";
+                else if (winningAngle >= 45 && winningAngle < 135) winner = "Portrait painting";
+                else if (winningAngle >= 135 && winningAngle < 225) winner = "Bob Ross Painting";
+                else winner = "Baking Date";
+
+                resultText.innerText = "Yayy! We're doing  " + winner;
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
